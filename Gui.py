@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtWidgets,QtGui
 from PyQt5.Qt import Qt
 import pandas as pd
 from Movie_helper import imdb as db
+import webbrowser
 
  
 class Ui_MainWindow(QtCore.QAbstractTableModel):
@@ -20,7 +21,7 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
         
         self.data = db()
         self.df = self.data.printdb()
-        print (self.df)
+#         print (self.df)
         self._data = self.df
         
 
@@ -46,18 +47,18 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
     
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(700, 400)
+        MainWindow.resize(1000, 1000)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         
 #        the two buttons
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(100, 300, 93, 28))
+        self.pushButton.setGeometry(QtCore.QRect(100, 850, 93, 28))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.on_click)
         
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(500, 300, 93, 28))
+        self.pushButton_2.setGeometry(QtCore.QRect(500, 850, 93, 28))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(qApp.quit)
         self.pushButton_2.setStatusTip('Exit application')
@@ -71,8 +72,8 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
         
         
 #        self.pointListBox = QtWidgets.QTreeWidget(self.centralwidget)
-        self.pointListBox.setGeometry(QtCore.QRect(100, 110, 520, 155))
-        self.pointListBox.setSelectionMode(3)
+        self.pointListBox.setGeometry(QtCore.QRect(100, 50, 800, 700))
+        self.pointListBox.setSelectionMode(1)
 #        self.setHorizontalHeaderLabels( "header0")
         
         
@@ -119,7 +120,11 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
         self.pushButton_2.setText(_translate("MainWindow", "Cancel"))
         
     def on_click(self):
-        print('PyQt5 button click')
+        if len(self.pointListBox.selectedIndexes())>0:
+            index=self.pointListBox.selectedIndexes()
+            webbrowser.open(f"http://www.google.co.uk/search?hl=en&q={index[0].data()} {index[1].data()} movie")
+            webbrowser.open(f"https://www1.megashare.ai/search-query/{index[0].data()}")
+            print(index[0].data())
     
         
 

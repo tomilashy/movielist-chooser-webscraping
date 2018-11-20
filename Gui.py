@@ -13,20 +13,22 @@ from PyQt5.Qt import Qt
 #import pyinstaller
 import pandas as pd
 import webbrowser
-from Movie_helper import imdb as db
+from time import sleep
+#from Movie_helper import imdb as db
+
 
  
 class Ui_MainWindow(QtCore.QAbstractTableModel):
     def __init__(self):
         
         QtCore.QAbstractTableModel.__init__(self, parent=None)
-         
-        self.data = db()
-        self.df = self.data.printdb()
-#         print (self.df)
-        self._data = self.df
-#         self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
-#         self.df = pd.DataFrame(self.data)
+        
+#        self.data = db()
+#        self.df = self.data.printdb()
+##         print (self.df)
+#        self._data = self.df
+        self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
+        self.df = pd.DataFrame(self.data)
 #        self.df.index.name = 'S/N'
 #        print (self.df)
         self._data = self.df
@@ -35,6 +37,7 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
     def update(self):
         self.file_path = 'Watched_movies.csv'
         if not os.path.isfile(self.file_path):
+            self._data = self.df
             pass
         else:
             try:
@@ -109,7 +112,6 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 #        header.setDefaultAlignment(Qt.AlignHCenter)
 #        header.setStretchLastSection(False)
 #        header.setSectionsMovable(True)
-#        self.root = QtWidgets.QTreeWidgetItem(self.pointListBox, ["Sensor_data_net"])
 #
 #        print(self.pointListBox.columnAt(1))#.setCheckState( Qt.Checked)
 #        self.pointListBox.setHeader(self.header)
@@ -118,16 +120,6 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 #        self.bazA = QtWidgets.QTreeWidgetItem(self.root, ["ps_p_psla", "14.563151"])
 #        
 #        self.pointListBox.expandItem(self.root)
-#
-#
-##         self.barA = QtWidgets.QTreeWidgetItem(self.A)
-##         self.barA.setText(0,"bar")
-##         self.barA.setText(1,"i")
-##         self.barA.setText(2,"ii")
-#        self.root_1 = QtWidgets.QTreeWidgetItem(self.pointListBox, ["root_1"])
-
-        
-
         
         MainWindow.setCentralWidget(self.centralwidget)
 #        MainWindow.setStyle(QStyleFactory.create('Fusion'))
@@ -147,7 +139,7 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "OK"))
-        self.pushButton_2.setText(_translate("MainWindow", "Cancel"))
+        self.pushButton_2.setText(_translate("MainWindow", "Exit"))
         self.pushButton_1.setText(_translate("MainWindow", "Reset Default"))
         
     def on_click(self):
@@ -197,10 +189,13 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
             
     def on_reset(self):
         
-        ret = msg.question(self.centralwidget,'Warning', "Are you sure to reset all the values?", msg.Yes | msg.No)
-
-        if ret == msg.Yes:
-            os.remove(self.file_path)
+            if not os.path.isfile(self.file_path):
+                msg.about(self.centralwidget, "Info", "File ha already been deleted")
+                pass
+            else:
+                ret = msg.question(self.centralwidget,'Warning', "Are you sure to reset all the values?", msg.Yes | msg.No)
+                if ret == msg.Yes:
+                    os.remove(self.file_path)
             self.update()
             self.centralwidget.update()
 #            os.remove("movie_ratings.xlsx") remove all details from csv file
@@ -216,13 +211,15 @@ class AppWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.show()
+#        sleep(100)
+        
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    app.setStyle(QStyleFactory.create('Fusion'))
-    ex = AppWindow()
-    sys.exit(app.exec_())
+#if __name__ == '__main__':
+#    app = QApplication(sys.argv)
+#    app.setStyle(QStyleFactory.create('Fusion'))
+#    ex = AppWindow()
+#    sys.exit(app.exec_())
     
 # might allow user to see movies watched
 #try to add if itas a movie or a series and try to eliminate series if possible

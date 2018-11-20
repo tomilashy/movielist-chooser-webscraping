@@ -30,8 +30,9 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 #        self.df.index.name = 'S/N'
 #        print (self.df)
         self._data = self.df
+        self.update()
         
-        
+    def update(self):
         self.file_path = 'Watched_movies.csv'
         if not os.path.isfile(self.file_path):
             pass
@@ -186,6 +187,8 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
                          new_df.to_csv(self.file_path, columns = header, index=False)
     
                 print(new_df)
+                self.update()
+                self.centralwidget.update()
                 
     #        else if ret == msg.No:
         else:
@@ -198,6 +201,8 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 
         if ret == msg.Yes:
             os.remove(self.file_path)
+            self.update()
+            self.centralwidget.update()
 #            os.remove("movie_ratings.xlsx") remove all details from csv file
 #        else if ret == msg.No:
     

@@ -1,16 +1,14 @@
-
 from datetime import date
+from time import sleep
 from PyQt5 import QtCore, QtGui, QtWidgets
+from Gui import AppWindow
+from PyQt5.QtWidgets import QStyleFactory
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
-        self.years=[]
-        
-        for yr in range(2000,date.today().year+1):
-            self.years.append(yr)
-            
-        self.years=[str(i) for i in self.years]
-        print (list(reversed(self.years)))
+        self.years=[str(yr) for yr in range(2000,date.today().year+1)]
+                   
+#        print (list(reversed(self.years)))
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
         Dialog.resize(484, 288)
@@ -32,6 +30,7 @@ class Ui_Dialog(object):
         self.comboBox.setAutoFillBackground(False)
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItems(self.years)
+        self.comboBox.setCurrentIndex(len(self.years)-4)
         
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setEnabled(True)
@@ -63,15 +62,15 @@ class Ui_Dialog(object):
         self.comboBox_3.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.comboBox_3.setAutoFillBackground(False)
         self.comboBox_3.setObjectName("comboBox_3")
-        pages=[str(i) for i in range(1,11)]
-        self.comboBox_3.addItems(pages)
-
+        self.pages=[str(i) for i in range(1,11)]
+        self.comboBox_3.addItems(self.pages)
         self.comboBox_3.setCurrentIndex(3)
+        
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setEnabled(True)
         self.label_3.setGeometry(QtCore.QRect(140, 170, 77, 13))
         self.label_3.setAutoFillBackground(False)
-#        self.label_3.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_3.setScaledContents(False)
         self.label_3.setObjectName("label_3")
        
@@ -79,7 +78,7 @@ class Ui_Dialog(object):
         self.label_4.setEnabled(True)
         self.label_4.setGeometry(QtCore.QRect(30, 10, 441, 16))
         self.label_4.setAutoFillBackground(False)
-#        self.label_4.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label_4.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_4.setScaledContents(False)
         self.label_4.setObjectName("label_4")
         
@@ -87,7 +86,7 @@ class Ui_Dialog(object):
         self.label_5.setEnabled(True)
         self.label_5.setGeometry(QtCore.QRect(160, 30, 171, 16))
         self.label_5.setAutoFillBackground(False)
-#        self.label_5.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label_5.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_5.setScaledContents(False)
         self.label_5.setObjectName("label_5")
         
@@ -104,20 +103,31 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label.setText(_translate("Dialog", "Year (Beginning)"))
         self.label_2.setText(_translate("Dialog", "Year(end)"))
-
         self.label_3.setText(_translate("Dialog", "Pages/year"))
         self.label_4.setText(_translate("Dialog", "Choose what year you want to begin and want to end and  how many pages per year "))
         self.label_5.setText(_translate("Dialog", "you want to search through"))
     
     def okAction(self):
-        self.Dialog.accept()
+        self.start=int(self.comboBox.currentText())
+        self.end=int(self.comboBox_2.currentText())
+        self.page=int(self.comboBox_3.currentText())
+        print(self.start,self.end,self.page)
+        
+        
+        
+        self.Dialog.hide()
+#        self.Dialog.accept()
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle(QStyleFactory.create('Fusion'))
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
     Dialog.show()
+    while(not Dialog.accept()):
+        sleep(1)
+    ex = AppWindow()
     sys.exit(app.exec_())
 

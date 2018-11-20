@@ -13,20 +13,20 @@ from PyQt5.Qt import Qt
 #import pyinstaller
 import pandas as pd
 import webbrowser
-#from Movie_helper import imdb as db
+from Movie_helper import imdb as db
 
  
 class Ui_MainWindow(QtCore.QAbstractTableModel):
     def __init__(self):
         
         QtCore.QAbstractTableModel.__init__(self, parent=None)
-        
-#        self.data = db()
-#        self.df = self.data.printdb()
-##         print (self.df)
-#        self._data = self.df
-        self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
-        self.df = pd.DataFrame(self.data)
+         
+        self.data = db()
+        self.df = self.data.printdb()
+#         print (self.df)
+        self._data = self.df
+#         self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
+#         self.df = pd.DataFrame(self.data)
 #        self.df.index.name = 'S/N'
 #        print (self.df)
         self._data = self.df

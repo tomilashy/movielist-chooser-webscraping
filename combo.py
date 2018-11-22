@@ -142,9 +142,11 @@ class Ui_Dialog(object):
         self.end=int(self.comboBox_2.currentText())
         self.page=int(self.comboBox_3.currentText())
         self.min_rating=float(self.comboBox_4.currentText())
-        print(self.start,self.end,self.page)       
-        self.Dialog.accept()
-        
+        print(self.start,self.end,self.page)
+        if self.start<=self.end:
+            self.Dialog.accept()
+        else:
+            QtWidgets.QMessageBox.about(self.Dialog, "Info", "The final year can not be greater than the initial year")
         
 
 if __name__ == "__main__":

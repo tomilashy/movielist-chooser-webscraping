@@ -190,7 +190,7 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
     def on_reset(self):
         
             if not os.path.isfile(self.file_path):
-                msg.about(self.centralwidget, "Info", "File ha already been deleted")
+                msg.about(self.centralwidget, "Info", "File has already been deleted")
                 pass
             else:
                 ret = msg.question(self.centralwidget,'Warning', "Are you sure to reset all the values?", msg.Yes | msg.No)

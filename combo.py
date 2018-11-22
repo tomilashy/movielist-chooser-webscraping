@@ -3,16 +3,23 @@ from time import sleep
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Gui import AppWindow
 from PyQt5.QtWidgets import QStyleFactory
+from PyQt5.QtCore import QObject,QThread,pyqtSignal
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         self.years=[str(yr) for yr in range(2000,date.today().year+1)]
-                   
+        
 #        print (list(reversed(self.years)))
         Dialog.setObjectName("Dialog")
         Dialog.setEnabled(True)
         Dialog.resize(484, 288)
         Dialog.setModal(True)
+        
+#        QThread.currentThread().setObjectName('main') 
+#        self.thread = QThread()
+#        self.thread .start()
+#        self.thread.connect_and_emit_trigger()
+        
         
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setEnabled(True)
@@ -97,6 +104,7 @@ class Ui_Dialog(object):
 #        self.buttonBox.accepted.clicked.connect(self.okAction(Dialog))
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -111,23 +119,21 @@ class Ui_Dialog(object):
         self.start=int(self.comboBox.currentText())
         self.end=int(self.comboBox_2.currentText())
         self.page=int(self.comboBox_3.currentText())
-        print(self.start,self.end,self.page)
+        print(self.start,self.end,self.page)       
+        self.Dialog.accept()
         
         
-        
-        self.Dialog.hide()
-#        self.Dialog.accept()
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle(QStyleFactory.create('Fusion'))
-    Dialog = QtWidgets.QDialog()
+    Dialog = QtWidgets.QDialog() 
     ui = Ui_Dialog()
     ui.setupUi(Dialog)
     Dialog.show()
-    while(not Dialog.accept()):
-        sleep(1)
-    ex = AppWindow()
+    result=ui.Dialog.exec_()
+    if result==QtWidgets.QDialog.Accepted:
+        c=AppWindow(ui.page,ui.start,ui.end)
+    #    c.show()
     sys.exit(app.exec_())
-

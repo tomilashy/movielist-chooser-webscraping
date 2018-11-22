@@ -11,9 +11,10 @@ from requests import get
 from datetime import date
 from openpyxl import *
 import pandas as pd
+
 import re
 class imdb():
-    def __init__(self):
+    def __init__(self,paged,start,end):
         names = []
         years = []
         imdb_ratings = []
@@ -60,10 +61,10 @@ class imdb():
         
         
             # Lists to store the scraped data i
-        for year_url in range(date.today().year-4,date.today().year+1):
+        for year_url in range(int (start),int (end)+1):
           count=1
           print(f"Loading: {year_url}")
-          for page in range(1,5):
+          for page in range(1,int(paged)):
               
             sleep(randint(1,2))
             '''

@@ -10,27 +10,27 @@ import sys,os
 from PyQt5.QtWidgets import QMainWindow, QApplication, qApp, QStyleFactory,QMessageBox as msg
 from PyQt5 import QtCore, QtWidgets,QtGui
 from PyQt5.Qt import Qt
-#import pyinstaller
 import pandas as pd
 import webbrowser
 from time import sleep
-#from Movie_helper import imdb as db
+from Movie_helper import imdb as db
 
 
  
 class Ui_MainWindow(QtCore.QAbstractTableModel):
-    def __init__(self):
+    def __init__(self,page,start,end):
         
         QtCore.QAbstractTableModel.__init__(self, parent=None)
         
-#        self.data = db()
-#        self.df = self.data.printdb()
-##         print (self.df)
-#        self._data = self.df
-        self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
-        self.df = pd.DataFrame(self.data)
+        self.data = db(page,start,end)
+        self.df = self.data.printdb()
+#         print (self.df)
+
+#         self.data = {'Name':['Tom', 'Jack', 'Steve', 'Rickyyyyyyyyyyyyyyyy'],'Age':[28,34,29,42]}
+#         self.df = pd.DataFrame(self.data)
 #        self.df.index.name = 'S/N'
 #        print (self.df)
+
         self._data = self.df
         self.update()
         
@@ -206,13 +206,14 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 
 
 class AppWindow(QMainWindow):
-    def __init__(self ):
+    def __init__(self,page,start,end ):
         super().__init__()
-        self.ui = Ui_MainWindow()
+        app = QtWidgets.QApplication(sys.argv)
+        self.ui = Ui_MainWindow(page,start, end)
         self.ui.setupUi(self)
         self.show()
 #        sleep(100)
-        
+        sys.exit(app.exec_())
 
 
 #if __name__ == '__main__':

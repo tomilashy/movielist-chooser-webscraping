@@ -1,5 +1,6 @@
 from datetime import date
 from time import sleep
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Gui import AppWindow
 from PyQt5.QtWidgets import QStyleFactory
@@ -65,7 +66,7 @@ class Ui_Dialog(object):
         
         self.comboBox_3 = QtWidgets.QComboBox(Dialog)
         self.comboBox_3.setEnabled(True)
-        self.comboBox_3.setGeometry(QtCore.QRect(220, 160, 91, 31))
+        self.comboBox_3.setGeometry(QtCore.QRect(330, 160, 91, 31))
         self.comboBox_3.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.comboBox_3.setAutoFillBackground(False)
         self.comboBox_3.setObjectName("comboBox_3")
@@ -75,27 +76,47 @@ class Ui_Dialog(object):
         
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setEnabled(True)
-        self.label_3.setGeometry(QtCore.QRect(140, 170, 77, 13))
+        self.label_3.setGeometry(QtCore.QRect(260, 170, 77, 13))
         self.label_3.setAutoFillBackground(False)
         self.label_3.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_3.setScaledContents(False)
         self.label_3.setObjectName("label_3")
-       
+        
+        self.comboBox_4 = QtWidgets.QComboBox(Dialog)
+        self.comboBox_4.setEnabled(True)
+        self.comboBox_4.setGeometry(QtCore.QRect(130, 160, 91, 31))
+        self.comboBox_4.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.comboBox_4.setAutoFillBackground(False)
+        self.comboBox_4.setObjectName("comboBox_4")
+        self.pages=[str(x/10)  for x in range(50, 100,1)]
+#        print(self.pages)
+#        self.pages=[str(i) for i in self.pages]
+        self.comboBox_4.addItems(self.pages)
+        self.comboBox_4.setCurrentIndex(len(self.pages)-(len(self.pages)/2))
+        
         self.label_4 = QtWidgets.QLabel(Dialog)
         self.label_4.setEnabled(True)
-        self.label_4.setGeometry(QtCore.QRect(30, 10, 441, 16))
+        self.label_4.setGeometry(QtCore.QRect(50, 170, 77, 13))
         self.label_4.setAutoFillBackground(False)
         self.label_4.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_4.setScaledContents(False)
         self.label_4.setObjectName("label_4")
-        
+       
         self.label_5 = QtWidgets.QLabel(Dialog)
         self.label_5.setEnabled(True)
-        self.label_5.setGeometry(QtCore.QRect(160, 30, 171, 16))
+        self.label_5.setGeometry(QtCore.QRect(30, 10, 441, 16))
         self.label_5.setAutoFillBackground(False)
         self.label_5.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_5.setScaledContents(False)
         self.label_5.setObjectName("label_5")
+        
+        self.label_6 = QtWidgets.QLabel(Dialog)
+        self.label_6.setEnabled(True)
+        self.label_6.setGeometry(QtCore.QRect(160, 30, 171, 16))
+        self.label_6.setAutoFillBackground(False)
+        self.label_6.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.label_6.setScaledContents(False)
+        self.label_6.setObjectName("label_6")
         
         self.Dialog=Dialog
         self.retranslateUi(Dialog)
@@ -112,13 +133,15 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Year (Beginning)"))
         self.label_2.setText(_translate("Dialog", "Year(end)"))
         self.label_3.setText(_translate("Dialog", "Pages/year"))
-        self.label_4.setText(_translate("Dialog", "Choose what year you want to begin and want to end and  how many pages per year "))
-        self.label_5.setText(_translate("Dialog", "you want to search through"))
+        self.label_4.setText(_translate("Dialog", "Min Rating"))
+        self.label_5.setText(_translate("Dialog", "Choose what year you want to begin and want to end and  how many pages per year "))
+        self.label_6.setText(_translate("Dialog", "you want to search through"))
     
     def okAction(self):
         self.start=int(self.comboBox.currentText())
         self.end=int(self.comboBox_2.currentText())
         self.page=int(self.comboBox_3.currentText())
+        self.min_rating=float(self.comboBox_4.currentText())
         print(self.start,self.end,self.page)       
         self.Dialog.accept()
         
@@ -134,6 +157,6 @@ if __name__ == "__main__":
     Dialog.show()
     result=ui.Dialog.exec_()
     if result==QtWidgets.QDialog.Accepted:
-        c=AppWindow(ui.page,ui.start,ui.end)
+        c=AppWindow(ui.page,ui.start,ui.end,ui.min_rating)
     #    c.show()
     sys.exit(app.exec_())

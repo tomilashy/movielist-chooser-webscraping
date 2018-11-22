@@ -18,11 +18,11 @@ from Movie_helper import imdb as db
 
  
 class Ui_MainWindow(QtCore.QAbstractTableModel):
-    def __init__(self,page,start,end):
+    def __init__(self,page,start,end,min_rating):
         
         QtCore.QAbstractTableModel.__init__(self, parent=None)
         
-        self.data = db(page,start,end)
+        self.data = db(page,start,end,min_rating)
         self.df = self.data.printdb()
 #         print (self.df)
 
@@ -206,10 +206,10 @@ class Ui_MainWindow(QtCore.QAbstractTableModel):
 
 
 class AppWindow(QMainWindow):
-    def __init__(self,page,start,end ):
+    def __init__(self,page,start,end,min_rating ):
         super().__init__()
         app = QtWidgets.QApplication(sys.argv)
-        self.ui = Ui_MainWindow(page,start, end)
+        self.ui = Ui_MainWindow(page,start, end,min_rating)
         self.ui.setupUi(self)
         self.show()
 #        sleep(100)

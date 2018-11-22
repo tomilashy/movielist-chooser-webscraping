@@ -14,7 +14,7 @@ import pandas as pd
 
 import re
 class imdb():
-    def __init__(self,paged,start,end):
+    def __init__(self,paged,start,end,min_rating):
         names = []
         years = []
         imdb_ratings = []
@@ -66,7 +66,7 @@ class imdb():
           print(f"Loading: {year_url}")
           for page in range(1,int(paged)):
               
-            sleep(randint(1,2))
+            sleep(randint(1,4))
             '''
           https://www.imdb.com/search/title?release_date=2017&sort=num_votes,desc&page=1%27
         
@@ -108,7 +108,7 @@ class imdb():
             for container in movie_containers:
         
                 # If the movie has Metascore, then extract:
-                if container.strong.text is not None and float(container.strong.text) >7.5 :
+                if container.strong.text is not None and float(container.strong.text) >min_rating :
         
                     # The name
                     name = container.h3.a.text
